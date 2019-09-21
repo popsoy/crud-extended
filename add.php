@@ -12,66 +12,52 @@
 //including the database connection file
 include_once("config.php");
 
-if(isset($_POST['Submit'])) {
-	$cName = $_POST['cName'];
-	$address= $_POST['cAddress'];
-	$contact= $_POST['cContact'];	
+if(isset($_POST['Submit'])) {	
 	$pName = $_POST['pName'];
-	$pPrice = $_POST['pPrice'];
 	$pDesc = $_POST['pDesc'];
-	
+	$pPrice = $_POST['pPrice'];
+	$pStock = $_POST['pStock'];
 		
 	// checking empty fields
-	if(empty($cName) || empty($address) || empty($contact) || empty($pName) || empty($pPrice) || empty($pDesc)) {
-		
-		if(empty($cName)) {
-			echo "<h4 class=\"text-danger\">Customer Name field is empty.</h4><br/>";
+	if(empty($pName) || empty($pDesc) || empty($pPrice) || empty($pStock)) {
+				
+		if(empty($pName)) {
+			echo "<font color='red'>Product Name field is empty.</font><br/>";
 		}
-		if(empty($address)) {
-			echo "<h4 class=\"text-danger\">Address field is empty.</h4><br/>";
-		}
-		if(empty($contact)) {
-			echo "<h4 class=\"text-danger\">Contact field is empty.</h4><br/>";
-		}
-
-		if(empty($productname)) {
-			echo "<h4 class=\"text-danger\">Product Name field is empty.</h4><br/>";
+		if(empty($pDesce)) {
+			echo "<font color='red'>Product Description field is empty.</font><br/>";
 		}
 		
-		if(empty($price)) {
-			echo "<h4 class=\"text-danger\">Price field is empty.</h4><br/>";
-		}
-
-		if(empty($pDesc)) {
-			echo "<h4 class=\"text-danger\">Product Description field is empty.</h4><br/>";
+		if(empty($pPrice)) {
+			echo "<font color='red'>Price field is empty.</font><br/>";
 		}
 		
-	
+		if(empty($pStock)) {
+			echo "<font color='red'>Stock field is empty.</font><br/>";
+		}
 		
 		//link to the previous page
-		echo "<br/><a class=\"btn btn-primary\" href='javascript:self.history.back();'>Go Back</a>";
+		echo "<br/><a href='javascript:self.history.back();'>Go Back</a>";
 	} else { 
 		// if all the fields are filled (not empty) 
 			
 		//insert data to database		
-		$sql = "INSERT INTO customers(cName, cAddress, cContact, pName, pPrice, pDesc) VALUES(:cName, :cAddress, :cContact, :pName, :pPrice, :pDesc )";
+		$sql = "INSERT INTO products (pName, pDesc, pPrice, pStock) VALUES(:pName, :pDesc, :pPrice, :pStock)";
 		$query = $dbConn->prepare($sql);
 				
-		$query->bindparam(':cName', $cName);
-		$query->bindparam(':cAddress', $cAddress);
-		$query->bindparam(':stocks', $stocks);
-		$query->bindparam(':cContact', $cContact);
 		$query->bindparam(':pName', $pName);
-		$query->bindparam(':pPrice', $pPrice);
 		$query->bindparam(':pDesc', $pDesc);
+		$query->bindparam(':pPrice', $pPrice);
+		$query->bindparam(':pStock', $pStock);
 		$query->execute();
 		
+		
 		// Alternative to above bindparam and execute
-		// $query->execute(array(':name' => $name, ':email' => $email, ':age' => $age));
+		// $query->execute(array(':pName' => $pName, ':pPrice' => pPrice, ':pStock' => $pStock));
 		
 		//display success message
 		echo "<h2 class=\"text-success\">Data added successfully.</h2>";
-		echo "<br/><h2 class=\"text-success\"><a href='index.php'>View Result</a></h2>";
+		echo "<br/><h2 class=\"text-success\"><a href='addproducts.php'>View Result</a></h2>";
 	}
 }
 ?>
